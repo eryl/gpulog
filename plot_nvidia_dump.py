@@ -27,15 +27,19 @@ def main():
         raise RuntimeError("No values to display, did you filter out all GPU ids?")
 
     fig, (ax_compute, ax_mem) = plt.subplots(2, 1, sharex='col')
+    plt.suptitle(f'Utilization statistics from {args.statfile.name}')
+
     stats.groupby('gpu_id')['utilization.gpu [%]'].plot(ax=ax_compute)
     ax_compute.set_ylim(0, 1.05)
-
+    ax_compute.set_ylabel('GPU utilization')
     stats.groupby('gpu_id')['utilization.memory [%]'].plot(ax=ax_mem)
     ax_mem.set_ylim(0, 1.05)
+    ax_mem.set_ylabel('Memory utilization')
 
     # Are we sure the order of the plots are the same so that the legend is correct for both subplots?
     plt.legend(title="gpu_id")
-
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.9)
     plt.show()
 
 if __name__ == '__main__':
