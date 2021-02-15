@@ -15,8 +15,8 @@ def main():
         stats[col_name] = stats[col_name].str.rstrip(' %').astype(float) / 100
 
     fig, (ax_compute, ax_mem) = plt.subplots(2, 1, sharex='col')
-    stats.groupby('pci.bus_id')['utilization.gpu [%]'].plot(ax=ax_compute)
-    stats.groupby('pci.bus_id')['utilization.memory [%]'].plot(ax=ax_mem)
+    stats.groupby('pci.bus_id')['utilization.gpu [%]'].plot(ax=ax_compute, legend=True)
+    stats.groupby('pci.bus_id')['utilization.memory [%]'].plot(ax=ax_mem, legend=True)
     ax_compute.set_ylim(0, 1.05)
     ax_mem.set_ylim(0, 1.05)
     plt.show()
