@@ -26,14 +26,14 @@ def live_utilization_plot(filter_ids):
         bus_id = pci_info.busId
         bus_ids.append(bus_id)
 
-    handles = {i: nvmlDeviceGetHandleByPciBusId(bus_id) for i,bus_id in enumerate(sorted(bus_ids)) if i in filter_ids}
+    handles = {i: nvmlDeviceGetHandleByPciBusId(bus_id) for i, bus_id in enumerate(sorted(bus_ids)) if i in filter_ids}
 
-    gpu_utils = {i:[] for i in range(device_count)}
-    mem_utils = {i:[] for i in range(device_count)}
+    gpu_utils = {i:[] for i in handles.keys()}
+    mem_utils = {i:[] for i in handles.keys()}
     dt_0 = time.time()
-    dts = {i: [0] for i in range(device_count)}
+    dts = {i: [0] for i in handles.keys()}
 
-    for i in range(device_count):
+    for i in handles.keys():
         handle = handles[i]
         util = nvmlDeviceGetUtilizationRates(handle)
         gpu_utils[i].append(util.gpu)
@@ -43,8 +43,8 @@ def live_utilization_plot(filter_ids):
     ax_gpu.set_ylabel('GPU utilzation [%]')
     ax_mem.set_ylabel('Memory utilzation [%]')
 
-    gpu_lines = {i: ax_gpu.plot(dts[i], gpu_utils[i], label=f'{i}')[0] for i in range(device_count)}
-    mem_lines = {i: ax_mem.plot(dts[i], gpu_utils[i], label=f'{i}')[0] for i in range(device_count)}
+    gpu_lines = {i: ax_gpu.plot(dts[i], gpu_utils[i], label=f'{i}')[0] for i in handles.keys()}
+    mem_lines = {i: ax_mem.plot(dts[i], gpu_utils[i], label=f'{i}')[0] for i in handles.keys()}
 
     def init():
         ax_gpu.set_ylim(0, 105)
@@ -60,7 +60,7 @@ def live_utilization_plot(filter_ids):
             ax_mem.set_xlim(0, dt * 1.2)
             fig.canvas.resize_event()
 
-        for i in range(device_count):
+        for i in handles.keys():
             handle = handles[i]
             util = nvmlDeviceGetUtilizationRates(handle)
             xdata = dts[i]
