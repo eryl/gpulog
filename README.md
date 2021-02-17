@@ -1,8 +1,12 @@
 # Example of logging NVIDIA GPU utilization to file
-This repo contains small code examples of how to use `nvidia-smi` to log GPU utilization to a CSV file and use a python 
-script to plot the results. Use the script `log_gpu_utilization.sh` to start logging gpu utilization. Exit logging by pressing `CTRL+C`.
+This repo contains small code examples of how to use `nvidia-smi` and `pynvml` to log GPU utilization. This supports 
+both offline logging to CSV and online plotting.
 
-To display GPU utilization, run the script `plot_nvidia_dump.py`:
+
+## Logging to CSV
+To log utilization, run the script `log_gpu_utilization.sh` Exit logging by pressing `CTRL+C`.
+
+To display logged GPU utilization, run the script `plot_nvidia_dump.py`:
 ```
 $ python plot_nvidia_dump.py gpu_log_[timestamp].csv
 ```
@@ -21,3 +25,16 @@ enumerates GPUs based on speed (the fastest GPU first). You can make CUDA use th
 export CUDA_DEVICE_ORDER=PCI_BUS_ID
 ```
 Note: this has to be done before you assign GPUs to your running program to make it use the correct ID.
+
+## Online logging
+The online logging script depends on pynvml and matplotlib, install these before running this script 
+(`pip install pynvml`). Afterwords, start the logging by running:
+
+```
+live_gpu_utilization.py
+```
+You can filter out GPU ids by giving their integer indices (ordered by BUS id like in nvidia-smi).
+```
+live_gpu_utlization.py 1 2 
+```
+Will only display information for the second and third GPU.

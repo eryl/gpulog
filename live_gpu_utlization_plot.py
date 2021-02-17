@@ -16,7 +16,7 @@ from pynvml import (nvmlInit,
 def live_utilization_plot(filter_ids):
     nvmlInit()
     device_count = nvmlDeviceGetCount()
-    if filter_ids is None:
+    if not filter_ids:
         filter_ids = list(range(device_count))
 
     bus_ids = []
@@ -55,6 +55,7 @@ def live_utilization_plot(filter_ids):
 
     def update(dt):
         xlim_low, xlim_high = ax_gpu.get_xlim()
+
         if xlim_high < dt*1.01:
             ax_gpu.set_xlim(0, dt * 1.2)
             ax_mem.set_xlim(0, dt * 1.2)
@@ -88,8 +89,8 @@ def live_utilization_plot(filter_ids):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--filter-ids', help="If given, only display GPU's with these ids (numbered after bus id).",
-                        type=int, nargs='+')
+    parser.add_argument('filter_ids', help="If given, only display GPU's with these ids (numbered after bus id).",
+                        type=int, nargs='*', default=None)
     args = parser.parse_args()
 
     live_utilization_plot(args.filter_ids)
