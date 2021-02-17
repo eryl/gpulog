@@ -35,7 +35,7 @@ $ python live_gpu_utlization_plot.py
 ```
 You can filter out GPU ids by giving their integer indices (ordered by BUS id like in nvidia-smi).
 ```
-$ python live_gpu_utlization_plot.py
+$ python live_gpu_utlization_plot.py 1 2
 ```
 Will only display information for the second and third GPU.
 
