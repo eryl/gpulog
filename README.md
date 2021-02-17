@@ -31,10 +31,18 @@ The online logging script depends on pynvml and matplotlib, install these before
 (`pip install pynvml`). Afterwords, start the logging by running:
 
 ```
-live_gpu_utilization.py
+$ python live_gpu_utlization_plot.py
 ```
 You can filter out GPU ids by giving their integer indices (ordered by BUS id like in nvidia-smi).
 ```
-live_gpu_utlization.py 1 2 
+$ python live_gpu_utlization_plot.py
 ```
 Will only display information for the second and third GPU.
+
+If want to limit the utilization curve to only the last x couple of seconds, use the command line argument 
+`--limit-window`, this will continuously move the window so at approximately the given number of seconds are shown. 
+To show the utilization for the last minute use:
+
+```
+$ python live_gpu_utlization_plot.py --limit-window 60
+```
