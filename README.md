@@ -1,7 +1,6 @@
-# Example of logging NVIDIA GPU utilization to file
+# Example of logging NVIDIA GPU utilization
 This repo contains small code examples of how to use `nvidia-smi` and `pynvml` to log GPU utilization. This supports 
 both offline logging to CSV and online plotting.
-
 
 ## Logging to CSV
 To log utilization, run the script `log_gpu_utilization.sh` Exit logging by pressing `CTRL+C`.
